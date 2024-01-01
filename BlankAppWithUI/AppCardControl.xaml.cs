@@ -76,30 +76,24 @@ namespace BlankAppWithUI
             VisualStateManager.GoToState(CardControl, "Normal", true);
         }
 
-        private CanvasBitmap originalBitmap; // 存储原始图像
-        private GaussianBlurEffect blurEffect; // 高斯模糊效果
-        private Transform2DEffect scaleEffect; // 高斯模糊效果
+        private CanvasBitmap originalBitmap;
+        private GaussianBlurEffect blurEffect;
+        private Transform2DEffect scaleEffect;
 
 
-        // 当ImageSource属性变化时触发
         private static void OnImageSourceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            // 转换为当前控件实例
             var control = d as AppCardControl;
             control?.LoadAndBlurImage((string)e.NewValue);
         }
         private async void LoadAndBlurImage(string imagePath)
         {
-            // 使用ms-appx URI方案来指定包内的图像路径
             string packageImagePath = $"ms-appx:///{imagePath}";
 
             CanvasDevice device = CanvasDevice.GetSharedDevice();
 
-            // 使用正确的Uri加载图像
             Uri imageUri = new Uri(packageImagePath);
             originalBitmap = await CanvasBitmap.LoadAsync(device, imageUri);
-
-
 
             scaleEffect = new Transform2DEffect()
             {
@@ -118,17 +112,14 @@ namespace BlankAppWithUI
 
         private void CanvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
         {
-            // 确保图像和效果已加载且不为null
             if (originalBitmap != null && blurEffect != null)
             {
-                // 绘制模糊图像
                 try
                 {
                     args.DrawingSession.DrawImage(blurEffect);
                 }
                 catch (Exception ex)
                 {
-                    // 适当地处理异常，比如记录日志
                     System.Diagnostics.Debug.WriteLine($"Drawing error: {ex.Message}");
                 }
             }

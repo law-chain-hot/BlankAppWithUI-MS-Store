@@ -16,7 +16,6 @@
             <Grid.Background>
                 <ImageBrush ImageSource="/Assets/8f904e52-fde2-451a-80c6-b6f092b12e0e.jpg" Stretch="UniformToFill"/>
             </Grid.Background>
-            <!-- 使用VisualStateManager来监视窗口宽度 -->
             <VisualStateManager.VisualStateGroups>
                 <VisualStateGroup>
                     <VisualState x:Name="NarrowView">
