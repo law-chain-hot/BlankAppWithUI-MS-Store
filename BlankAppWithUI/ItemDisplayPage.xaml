@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="BlankAppWithUI.ItemDisplayPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:BlankAppWithUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+    <Grid Padding="20">
+        <Grid  CornerRadius="10" Height="330" Padding="40,30">
+            <Grid.Background>
+                <ImageBrush ImageSource="/Assets/8f904e52-fde2-451a-80c6-b6f092b12e0e.jpg" Stretch="UniformToFill"/>
+            </Grid.Background>
+            <!-- 使用VisualStateManager来监视窗口宽度 -->
+            <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup>
+                    <VisualState x:Name="NarrowView">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="400"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="CardsGrid.Visibility" Value="Collapsed"/>
+                            <Setter Target="Column1.Width" Value="0*"/>
+                            <Setter Target="Column0.Width" Value="1*"/>
+                        </VisualState.Setters>
+                    </VisualState>
+                    <!--<VisualState x:Name="WideView">
+                        <VisualState.StateTriggers>
+                            <AdaptiveTrigger MinWindowWidth="721"/>
+                        </VisualState.StateTriggers>
+                        <VisualState.Setters>
+                            <Setter Target="CardsGrid.Visibility" Value="Visible"/>
+                        </VisualState.Setters>
+                    </VisualState>-->
+                </VisualStateGroup>
+            </VisualStateManager.VisualStateGroups>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition x:Name="Column0" Width="3*"/>
+                <ColumnDefinition x:Name="Column1" Width="7*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="Description" VerticalAlignment="Center" Margin="0,0,50,0">
+                <TextBlock x:Name="Title" Foreground="White" FontSize="24" TextWrapping="Wrap">Essential apps</TextBlock>
+                <TextBlock x:Name="Desc" Foreground="White" FontSize="16" Margin="0,10,0,0" TextWrapping="Wrap">Take your Windows experience to new heights with these must-have apps</TextBlock>
+                <Button Background="Gray" Opacity="0.9" Foreground="White" Content="See all" Margin="0,30,0,0" Width="120" BorderThickness="0"/>
+            </StackPanel>
+
+            <Grid x:Name="CardsGrid" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                <ItemsControl ItemsSource="{x:Bind AppCards}" Height="Auto" HorizontalAlignment="Stretch">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <controls:UniformGrid Orientation="Vertical" HorizontalAlignment="Stretch" Rows="1">
+                            </controls:UniformGrid>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:AppCard">
+                            <local:AppCardControl BackgroundColor="{x:Bind BackgroundColor}" 
+                                              ImageSource="{x:Bind ImageSource}"
+                                              AppName="{x:Bind AppName}"
+                                              Rating="{x:Bind Rating}"
+                                              Status="{x:Bind Status}"
+                                                  Tapped="AppCardControl_Tapped"
+                                                  />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Page>
